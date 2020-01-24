@@ -1,0 +1,5 @@
+Compiling a c file named first:
+gcc first.c
+
+I will name the executable file “hello” and the source code is first.c”:
+gcc -o hello first.c
