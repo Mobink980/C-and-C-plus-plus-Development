@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <math.h>
 int main(){
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //Program for calculating the tax bills
     float Price, TaxRate, Tax;
     int EmpCode;
@@ -19,6 +20,7 @@ int main(){
     printf("\n TaxRate: %f", TaxRate);
     printf("\n Tax: %f", Tax);
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //Program to show the usage of getche, getch
     char ch;
     printf("\n Test getch: Enter a character:");
@@ -44,6 +46,8 @@ int main(){
     printf("%2c", ch); //fourth line
     printf("%6c\n", ch);
 
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //A program to convert inch to centimeter
     float inch, cent;
     printf("Enter the Length into inch:");
@@ -66,7 +70,7 @@ int main(){
         printf("The perimeter of the triangle is %d and the area of the triangle is %e \n",perimeter, area);
     }
     
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //A program to rotate values
     int first, second, third;
     printf("Enter the three numbers to rotate left by a space: \n");   
@@ -79,7 +83,7 @@ int main(){
 
     printf("The rotated numbers are: %d %d %d \n", first, second, third);
 
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //Program to calculate the function f(x) = (x^2 + 2x - 1)/(x^3 - 2x^2 + 9)
     float x, y;
     printf("Enter the number to calculate: \n");   
