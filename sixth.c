@@ -5,11 +5,13 @@
 int check_ascendency(int, int[]);
 void bubbleSort(float[], int);
 void swap(float *, float *);
-float operate(float , float , char);
+float operate(float, float, char);
 long expo(int, int);
-char get_least(char []);
-void swap_ch(char [], int , int );
-void mirror(char []);
+char get_least(char[]);
+void swap_ch(char[], int, int);
+void mirror(char[]);
+void pyramid(int );
+int least_common_multiple(int , int );
 int main()
 {
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,11 +60,11 @@ int main()
     //A program to do basic mathematical operations and return the result
     float sum, minus, mult, div;
     long exponent;
-    sum = operate(12.3, 56.32, '+'); 
-    minus = operate(12.3, 56.32, '-'); 
-    mult = operate(12.3, 56.32, '*'); 
-    div = operate(12.3, 56.32, '/'); 
-    exponent = expo(2,3);
+    sum = operate(12.3, 56.32, '+');
+    minus = operate(12.3, 56.32, '-');
+    mult = operate(12.3, 56.32, '*');
+    div = operate(12.3, 56.32, '/');
+    exponent = expo(2, 3);
 
     printf("The sum is: %f , The minus is: %f \nThe multiplication is: %f, The division is: %f \nThe exponentiation is: %d\n", sum, minus, mult, div, exponent);
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,8 +83,35 @@ int main()
     mirror(str_num);
     printf("The mirror of the number is: %s", str_num);
 
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //A program to print the pyramid of numbers
+    printf("\n The pyramid of numbers is:\n");
+    pyramid(6); //creating a pyramid of numbers with 6 rows
+
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //A program to find the least common multiple of two numbers (also greatest common divisor )
+    int first, second;
+    printf("Please Enter two integer Values to calculate lcm and gcd: \n");
+    scanf("%d %d", &first, &second);
+    int lcm = least_common_multiple(first, second);
+    printf("lcm(%d, %d) = %d", first, second, lcm);
+    printf("\n");
+    //lcm(a, b) = ab/gcd(a,b)
+    int gcd = (first * second)/lcm;
+    printf("gcd(%d, %d) = %d", first, second, gcd);
+
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //A program to calculate the cosine a degree
+    printf("\n");
+    float degree = 0.0, cosine;
+    printf("Enter the value to calculate cosine: \n");
+    scanf("%f", &degree);
+    cosine = cos(degree);
+    printf("cos(%f) = %f \n", degree, cosine);
+
     getch(); //For keeping the command line open
-}
+
+} //end of main
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% HELPER METHODS
 // This method gets an array and checks whether its elements are ascendent
@@ -120,35 +149,41 @@ void swap(float *xp, float *yp)
 }
 
 //A method to do some operation on two numbers and return the result
-float operate(float num1, float num2, char ch){
-    if(ch == '+')
+float operate(float num1, float num2, char ch)
+{
+    if (ch == '+')
         return num1 + num2;
-    
+
     else if (ch == '-')
         return num1 - num2;
-           
-    else if(ch == '*')
+
+    else if (ch == '*')
         return num1 * num2;
-        
-    else{
-        if(num2 != 0.0){
-            return num1/num2;       
-        }       
-    }      
+
+    else
+    {
+        if (num2 != 0.0)
+        {
+            return num1 / num2;
+        }
+    }
     return 0.0;
 }
 
 //A method for exponentiation
-long expo(int base, int power){
-long sum = 1;
-for(int i = 0; i < power; i++){
-    sum *= base;
-}
+long expo(int base, int power)
+{
+    long sum = 1;
+    for (int i = 0; i < power; i++)
+    {
+        sum *= base;
+    }
     return sum;
 }
 
 //A method for getting the least part of a number
-char get_least(char str[]){
+char get_least(char str[])
+{
     int len = strlen(str);
     return str[len - 1];
 }
@@ -161,11 +196,57 @@ void swap_ch(char arr[], int b, int e)
     arr[e] = c;
 }
 
-void mirror(char arr[]){
+//A method to get the mirror of some number
+void mirror(char arr[])
+{
     int last = strlen(arr);
-    int count = (int)(last/2);
-    
-    for(int i = 0; i < count; i++){
-        swap_ch(arr,i, last - 1 - i);
+    int count = (int)(last / 2);
+
+    for (int i = 0; i < count; i++)
+    {
+        swap_ch(arr, i, last - 1 - i);
     }
+}
+
+//A method to create the pyramid of numbers
+void pyramid(int len){
+    for (int i = 0; i < len; i++) //Creating the spaces before each row
+    {
+        for (int k = len - 1 - i; k > 0; k--)
+        {
+            printf("   ");
+        }
+
+        for (int k = 1; k < i + 1; k++) //creating ascendent numbers
+        {
+            printf("  %d", k);
+        }
+        for (int k = i + 1; k >= 1; k--) //adding the inverse of the ascendent numbers
+        {
+            printf("  %d", k);
+        }
+        printf("\n");
+    }
+}
+
+//A method to find the least common multiple of two numbers
+int least_common_multiple(int first, int second){
+    int max_Value, least_Value, lcm = 0;
+    if(first < second){ //finding the least_Value and the max_Value
+        least_Value = first;
+        max_Value = second;
+    
+    }else{
+        least_Value = second;
+        max_Value = first;
+    }
+
+    //if one multiple of the largest number is divisible by the smaller, then we got the lcm
+    for (int i = 1; i < 500; i++){ 
+        if((max_Value * i) % least_Value == 0){
+            lcm = (max_Value * i);
+            break;
+        }
+    }
+    return lcm;
 }
