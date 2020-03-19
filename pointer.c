@@ -2,6 +2,11 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
+
+const float PI = 3.14;
+void CalcCycle(float, float *, float *);
+void showResult(double (*fp)(double), double inputNumber);
 int main()
 {
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% working with pointers
@@ -82,45 +87,88 @@ int main()
     //allocating space to  the pointer grades to the number of courses
     grades = (float *)malloc(sizeof(float) * NumCourse);
     sumMarks = 0; //sum of all the grades
-    for(int s = 0; s < NumCourse; s++) {
+    for (int s = 0; s < NumCourse; s++)
+    {
         printf("Enter mark of course %d:", s + 1);
         scanf("%f", &grades[s]); //getting the grades
         sumMarks += grades[s];
     }
-    printf("Average = %5.2f", sumMarks/NumCourse);
+    printf("Average = %5.2f", sumMarks / NumCourse);
 
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% POINTERS & STRINGS
     printf("\n\n");
     int w = 0;
     char *FruitNames[100]; //creating an array of pointers
-    char cFruit[20]; //a string (length initialized 20)
+    char cFruit[20];       //a string (length initialized 20)
     while (1)
     {
-       printf("Enter Fruit Name: ");
-       scanf("%s", cFruit);
-       //allocating space to the bytes of the input string
-       FruitNames[w] = (char *) malloc(sizeof(char) * strlen(cFruit));
-       strcpy(FruitNames[w], cFruit); //putting the input string to the allocated space
+        printf("Enter Fruit Name: (write q to quit) ");
+        scanf("%s", cFruit);
+        //allocating space to the bytes of the input string
+        FruitNames[w] = (char *)malloc(sizeof(char) * strlen(cFruit));
+        strcpy(FruitNames[w], cFruit); //putting the input string to the allocated space
 
-        
         //strcmp = 0 ==> 2 strings are equal
         //strcmp = 1 ==> first string is greater
         //strcmp = -1 ==> second string is greater
         //if the input string was q, then break
-       if(strcmp(FruitNames[w], "q") == 0) break;
-       w++;
+        if (strcmp(FruitNames[w], "q") == 0)
+            break;
+        w++;
     }
     printf("============== Fruit List ================== \n");
     w = 0;
     while (1)
     {
         //if the input string was q, then break and stop printing
-        if(strcmp(FruitNames[w], "q") == 0) break;
+        if (strcmp(FruitNames[w], "q") == 0)
+            break;
         printf("%s ", FruitNames[w]);
         w++;
     }
-    
-    
+
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    printf("\n");
+    //calculating the circumference and area of a circle
+    float radius, area, perimeter;
+    printf("Enter the radius of the circle:");
+    scanf("%f", &radius);
+    //the second and third parameters are defined by reference
+    CalcCycle(radius, &area, &perimeter);
+    printf("Area = %5.2f  &  Perimiter = %5.2f", area, perimeter);
+
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    printf("\n");
+    // a program to compute the sine of a function with function pointer
+    //Both variables and functions have specific addresses in the memory
+    //the variable which stores the address of a function in memory is called function pointer
+    float degree;
+    printf("Enter the degree to calculate sine for: ");
+    scanf("%f", &degree);
+
+    //creating a pointer to the sine function
+    //we have a pointer to a function which takes a double as input and returns a double
+    double (*fp)(double);  
+    fp = sin;
+    showResult(fp, degree);
+
     getch(); //For keeping the command line open
     return 0;
+}
+
+//A method for calculating the perimiter and area of a circle
+void CalcCycle(float r, float *a, float *p)
+{
+    //area and a indicate to the same place (The content of the address of the variable area)
+    //p and perimiter indicate to the same place (The content of the address of the variable perimeter)
+    *p = 2 * PI * r;
+    *a = PI * r * r;
+}
+
+//This method will show the result
+//the first parameter is a function of the type double (takes and returns a double)
+void showResult(double (*fp)(double), double inputNumber)
+{
+    //Now we can use fp exactly like the sine function in the math.h
+    printf("sin(%f) = %f", inputNumber, fp(inputNumber));
 }
