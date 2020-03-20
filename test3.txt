@@ -1,0 +1,4 @@
+Hello. This is a text file.
+We are checking fgets and fputs functions.
+They work perfectly fine.
+
