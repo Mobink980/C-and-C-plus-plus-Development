@@ -1,0 +1,4 @@
+You can disable compiler extensions by adding the -pedantic-errors flag to the compile command line.
+Add the following flags to your command line: -Wall -Weffc++ -Wextra -Wsign-conversion so compiler will give you more warnings (best practice).
+Add the following flag to your command line: -Werror so compiler treat warnings as errors (to motivate us to fix warnings).
+For GCC/G++, you can pass compiler flags -std=c++11, -std=c++14, -std=c++17, or -std=c++2a to enable C++11/14/17/2a support respectively.
