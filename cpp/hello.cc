@@ -12,9 +12,12 @@ int main()
      * programming is fun!
      */
 
-    //defining an integer
-    int x = -5; //initializing can be also like x(-5) or x {-5}!
-    int height { 6 }; //brace initialization is preferrred to avoid data loss
+
+    //brace initialization is preferrred to avoid data loss (best practice)
+    int height {6}; 
+    int width {7};
+    int area = width * height;
+    cout << "The area of a rectangle with width " << width << " and height " << height << " is " << area << endl;
    
     return 0;
 }
