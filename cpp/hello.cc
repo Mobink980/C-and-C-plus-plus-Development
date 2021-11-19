@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int main() 
+int main()
 {
     //commenting is fun!
     cout << "Hello, World!\n";
@@ -12,12 +12,11 @@ int main()
      * programming is fun!
      */
 
-
     //brace initialization is preferrred to avoid data loss (best practice)
-    int height {6}; 
-    int width {7};
+    int height{6};
+    int width{7};
     int area = width * height;
     cout << "The area of a rectangle with width " << width << " and height " << height << " is " << area << endl;
-   
+
     return 0;
 }
