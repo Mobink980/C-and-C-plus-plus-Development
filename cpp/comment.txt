@@ -2,3 +2,19 @@ You can disable compiler extensions by adding the -pedantic-errors flag to the c
 Add the following flags to your command line: -Wall -Weffc++ -Wextra -Wsign-conversion so compiler will give you more warnings (best practice).
 Add the following flag to your command line: -Werror so compiler treat warnings as errors (to motivate us to fix warnings).
 For GCC/G++, you can pass compiler flags -std=c++11, -std=c++14, -std=c++17, or -std=c++2a to enable C++11/14/17/2a support respectively.
+
+When compiling multiple-file projects with G++:
+From the command line, you can create the additional file yourself, using your favorite editor, 
+and give it a name. When you compile your program, you’ll need to include all of the relevant 
+code files on the compile line. For example: g++ main.cpp add.cpp -o main, where main.cpp and 
+add.cpp are the names of your code files, and main is the name of the output file.
+
+Including header files from other directories:
+Using relative paths like #include "../moreHeaders/myOtherHeader.h" is a bad way to do this.
+A better method is to tell your compiler or IDE that you have a bunch of header files in some 
+other location, so that it will look there when it can’t find them in the current directory. 
+This can generally be done by setting an include path or search directory in your IDE project settings.
+Using g++, you can use the -I option to specify an alternate include directory. For instance:
+g++ -o main -I/source/includes main.cpp
+The nice thing about this approach is that if you ever change your directory structure, 
+you only have to change a single compiler or IDE setting instead of every code file.
