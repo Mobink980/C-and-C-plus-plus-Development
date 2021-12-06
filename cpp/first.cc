@@ -31,7 +31,7 @@ int main()
     doNothing(x); // make the compiler think we're assigning a value to this variable
     std::cout << "x = " << x << '\n';
 
-    // When writing variaable or function names, avoid abbreviations. Although they reduce the time you
+    // When writing variable or function names, avoid abbreviations. Although they reduce the time you
     // need to write your code, they make your code harder to read (code is written once, but is read multiple times).
     int ccount{7};                                      // Bad	What does the c before “count” stand for?
     int customerCount{10};                              // Good	Clear what we’re counting
