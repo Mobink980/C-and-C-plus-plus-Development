@@ -44,6 +44,11 @@ int main()
 
     std::cout << add(10, 20) << std::endl;
 
+    //explicit type conversion (the thing between the angled brackets in C++ is most likely a type)
+    std::cout << static_cast<int>(3.14) << std::endl; // 3
+    char ch{ 97 }; // 97 is ASCII code for 'a'
+    std::cout << ch << " has value " << static_cast<int>(ch) << '\n'; // print value of variable ch as an int
+
 
     return 0;
 }

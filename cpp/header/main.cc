@@ -15,7 +15,7 @@
 
 int main()
 {
-    //This is an example of how to use the header files.
+    //This is an example of how to use the header files. Also, we have a multi-file project.
     //Use (g++ main.cc add.cc -o main -pedantic-errors -Wall -Weffc++ -Wextra -Wsign-conversion) to compile.
     //Parameters after the -o main (the name of the executable) are for turning off compiler extentions and useful warnings.
     std::cout << "The sum of 3 and 4 is " << add(3, 4) << '\n';

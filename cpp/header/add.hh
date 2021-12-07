@@ -1,3 +1,13 @@
+// 1) We really should have a header guard here. Header gaurds are conditional compilation blocks 
+//that are used to prevent the same header file from being included twice.
+#ifndef ADD_HH
+#define ADD_HH
+//All of your header files should have header guards on them. 
+//ADD_HH can be any name you want, but by convention is set to 
+//the full filename of the header file, typed in all caps, using 
+//underscores for spaces or punctuation. For example, square.hh would have the header guard: SQUARE_HH.
+
+
 
 //Header files allow us to put declarations in one location and then import them 
 //wherever we need them. This can save a lot of typing in multi-file programs.
@@ -19,9 +29,10 @@
 //needs to compile. Do not rely on headers included transitively from other headers.
 
 
-// 1) We really should have a header guard here, but will omit it for simplicity (we'll cover header guards in the next lesson)
+
 
 // 2) This is the content of the .h file, which is where the declarations go
 int add(int x, int y); // function prototype for add.hh -- don't forget the semicolon!
 
 
+#endif
