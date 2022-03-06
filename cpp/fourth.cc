@@ -47,7 +47,7 @@ void printInformation(Employee employee)
     std::cout << "Wage: " << employee.wage << '\n';
 }
 
-double getRandomNumber();
+double getRandomNumber(); //function prototype
 
 int main()
 {
@@ -84,12 +84,12 @@ int main()
 
     
 
-    // Print Joe's information
+    // Print Cassie's information
     printInformation(cassie);
 
     std::cout << "========================================================\n";
 
-    // Print Frank's information
+    // Print Emma's information
     printInformation(emma);
 
     std::cout << "========================================================\n";

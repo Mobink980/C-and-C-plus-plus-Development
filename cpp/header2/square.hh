@@ -7,7 +7,7 @@
 //Put the function definition in one of the .cc files so that the header just contains 
 //a forward declaration (like this file). In this way, the header file can be included 
 //in multiple files (without duplicate identifier problem). There won't be two definitions 
-//for the same functtion, which can happen in multi-file projects, like this one.
+//for the same function, which can happen in multi-file projects, like this one.
 
 /*
 * Header guards are designed to ensure that the contents of a given header file are not 

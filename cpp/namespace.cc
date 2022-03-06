@@ -49,7 +49,7 @@ namespace goo // define a namespace named goo
 //Namespaces can be nested inside other namespaces. For example:
 namespace loo
 {
-    namespace hoo // goo is a namespace inside the foo namespace
+    namespace hoo // hoo is a namespace inside the loo namespace
     {
         int add(int x, int y)
         {
