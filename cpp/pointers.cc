@@ -78,6 +78,7 @@ int main()
     //=======================================================================================================
     //An lvalue reference (commonly just called a reference) acts as an alias for an existing lvalue (such as a variable).
 
+    //A reference to var z goes to the address of the variable z and retrieves the value of the variable.
     int z { 5 };    // z is a normal integer variable
     //The type int& defines ref as an lvalue reference to an int.
     int& ref { z }; // ref is an lvalue reference variable that can now be used as an alias for variable z
@@ -174,6 +175,81 @@ int main()
     //=======================================================================================================
     //                                   /** POINTERS **/
     //=======================================================================================================
+
+    //The address-of operator (&) returns the memory address of its operand. 
+    int var1{ 100 };
+    std::cout << "The value of the variable var1 is: " << var1 << '\n';  
+    std::cout << "The memory address of variable var1 is: " << &var1 << '\n';  
+
+
+    /**
+     * When following a type name, & denotes an lvalue reference: int& ref.
+     * When used in a unary context in an expression, & is the address-of operator: std::cout << &x.
+     * When used in a binary context in an expression, & is the Bitwise AND operator: std::cout << x & y.
+     */
+
+
+    //Getting the address of a variable isn’t very useful by itself.
+    //The most useful thing we can do with an address is access the value stored at that address. 
+    //The dereference operator (*) returns the value at a given memory address as an lvalue.
+
+    int Bonjour{ 5 };
+    std::cout << "The value of variable Bonjour: " << Bonjour << '\n';  
+    std::cout << "The memory address of variable Bonjour: " << &Bonjour << '\n';
+    //In the following, parentheses not required, but make it easier to read.
+    std::cout << "The value at the memory address of variable Bonjour: " << *(&Bonjour) << '\n'; 
+
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    //The address-of operator (&) and dereference operator (*) work as opposites: 
+    //address-of gets the address of an object, and dereference gets the object at an address.
+    //The dereference operator is unary, whereas the multiplication operator is binary(*hi Vs hi*bye).
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+    //##############################################################################################################
+    //A pointer is an object that holds a memory address (typically of another variable) as its value. 
+    //This allows us to store the address of some other object to use later.
+    //Much like reference types are declared using an ampersand (&) character, pointer types are declared using an asterisk (*).
+    //##############################################################################################################
+
+    //Note that this asterisk is part of the declaration syntax for pointers, not a use of the dereference operator.
+    int* ptr { &x }; // a pointer to an integer (holds the address of an integer value)
+
+    //BEST PRACTICE: When declaring a pointer type, place the asterisk next to the type name.
+
+    //BEST PRACTICE: When declaring a pointer, always initialize it 
+    //(wild pointers contain garbage addresses causing undefined behavior).
+
+    int* ptr1;        // an uninitialized pointer (holds a garbage address)
+    int* ptr2{};     // a null pointer 
+    int* ptr3{ &Bonjour }; // a pointer initialized with the address of variable Bonjour
+    std::cout << "The value of variable Bonjour is: " << *ptr3 << '\n'; //get the value with the dereference operator
+
+    //In int* ptr{ &x }; ptr is holding the address of x, so we say that ptr is “pointing to” x.
+
+    //##############################################################################################################
+    //When we say, “an integer pointer”, we really mean “a pointer to an integer”. 
+    //int* ptr{ 0x0012FF7C }; is not okay, 0x0012FF7C is treated as an integer literal
+    //##############################################################################################################
+
+    int lin { 5 };
+    int lucie { 10 };
+    int* pointer1 { &lin };
+    std::cout << "lin is " << *pointer1 << '\n'; // print the value at the address being pointed to (lin's address)
+    pointer1 = &lucie; // change pointer1 to point at lucie
+    std::cout << "lucie is " << *pointer1 << '\n'; // print the value at the address being pointed to (lucie's address)
+    *pointer1 = 6; // The object at the address held by pointer1 (lucie) assigned value 6 (note that pointer1 is dereferenced here)
+    std::cout << "Now lucie is " << *pointer1 << '\n'; //6 of course!
+
+    //##############################################################################################################
+    // *( &x ) is x, e.g., *( &*( &*( &*( &*( &x ) ) ) ) ) == x. Pretty Cool!
+    //##############################################################################################################
+
+
+
+
+
+
 
 
     return 0;
