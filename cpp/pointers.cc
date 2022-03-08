@@ -35,6 +35,10 @@ void printMyConstValue(const int& y) // y is now a const reference
 
 
 
+bool isNullPointer(int* ptr); // function prototype
+
+
+
 int main()
 {
     //=======================================================================================================
@@ -220,7 +224,7 @@ int main()
     //BEST PRACTICE: When declaring a pointer, always initialize it 
     //(wild pointers contain garbage addresses causing undefined behavior).
 
-    int* ptr1;        // an uninitialized pointer (holds a garbage address)
+    // int* ptr1;        // an uninitialized pointer (holds a garbage address)
     int* ptr2{};     // a null pointer 
     int* ptr3{ &Bonjour }; // a pointer initialized with the address of variable Bonjour
     std::cout << "The value of variable Bonjour is: " << *ptr3 << '\n'; //get the value with the dereference operator
@@ -246,11 +250,98 @@ int main()
     //##############################################################################################################
 
 
+    //The address-of operator (&) returns a pointer containing the address of the operand (not the address as a literal).
+    std::cout << typeid(&lin).name() << '\n'; // print the type of &lin (prints “pi”, meaning pointer to int)
+
+    //BEST PRACTICE: Value initialize your pointers (to be null pointers) if you are not 
+    //initializing them with the address of a valid object. Because we can use assignment 
+    //to change what a pointer is pointing at, a pointer that is initially set to null can 
+    //later be changed to point at a valid object.
+
+    ptr2 = &lin; // ptr2 now points to lin (no longer a null pointer)
+    std::cout << "lin is " << *ptr2 << '\n';
+
+    //int* myNull_ptr { nullptr }; // can use nullptr keyword to initialize a pointer to be a 
+    //null pointer (like the keywords true and false)
+    //someFunction(nullptr); // we can also pass nullptr to a function that has a pointer parameter
+    //BEST PRACTICE: Use nullptr when you need a null pointer literal for initialization, 
+    //assignment, or passing a null pointer to a function.
 
 
+
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    WARNING   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //Accidentally dereferencing null and dangling pointers is one of the most common mistakes C++ programmers make, 
+    //and is probably the most common reason that C++ programs crash in practice. Whenever you are using pointers, 
+    //you’ll need to be extra careful that your code isn’t dereferencing null or dangling pointers, as this will 
+    //cause undefined behavior (probably an application crash).
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    if (isNullPointer(ptr)) {
+        std::cout << "ptr is null.\n";
+    }
+    else {
+        std::cout << "ptr is not null. It holds the address " 
+        << ptr << " and the object in that address has the value:" << *ptr <<'\n';
+    }
+
+    // Assume ptr is some pointer that may or may not be a null pointer
+    if (ptr) // if ptr is not a null pointer (non-null pointers are true, null pointers are false)
+        std::cout << "x has the value:" << *ptr <<'\n'; // okay to dereference
+    else
+        // do something else that doesn't involve dereferencing ptr 
+        //(print an error message, do nothing at all, etc...)
+        std::cout << "Error message! HaHaHaHa!\n";
+
+
+    //BEST PRACTICE: A pointer should either hold the address of a valid object, 
+    //or be set to nullptr. That way we only need to test pointers for null, and 
+    //can assume any non-null pointer is valid. 
+    //It is the programmer’s responsibility to ensure that all pointers to an 
+    //object that has just been destroyed are properly set to nullptr.
+
+
+    //float* ptr { 0 };  // ptr is now a null pointer (for example only, don't do this, architecture-dependent)
+
+
+    //##############################################################################################################
+    //Best practice: Favor references over pointers unless the additional capabilities provided by pointers are needed.
+    //##############################################################################################################
+
+
+    //Pointer to const value: A pointer to a const value is a (non-const) pointer that points to a constant value.
+    const int parfait{ 100 };
+    const int* ptr5 { &parfait }; // okay: ptr5 is pointing to a "const int"
+    const int bien{ 90 };
+    ptr5 = &bien; // okay: ptr now points at const int bien
+    std::cout << "bien is " << *ptr5 << '\n'; 
+
+
+    //Const pointers: We can also make a pointer itself constant. A const pointer is a pointer whose address 
+    //can not be changed after initialization.
+
+    int* const const_ptr { &lin }; // const after the asterisk means this is a const pointer
+    //const_ptr = &lucie; // error: once initialized, a const pointer can not be changed (fixed address).
+    *const_ptr = 200; // okay: the value being pointed to is non-const
+    std::cout << "Now lin is " << lin << '\n';
 
 
 
 
     return 0;
+}
+
+
+//Conditionals can only be used to differentiate null 
+//pointers from non-null pointers. There is no convenient 
+//way to determine whether a non-null pointer is pointing 
+//to a valid object or dangling (pointing to an invalid object).
+bool isNullPointer(int* ptr)
+{
+    if (ptr == nullptr)
+    {
+        return true;
+    }
+    
+    return false;
 }
