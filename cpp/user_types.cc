@@ -108,6 +108,31 @@ std::string getFeel(feeling::Feeling feel)
     }
 }
 
+//Scoped enumerations work similarly to unscoped enumerations, but have two primary 
+//differences: They are strongly typed (they won’t implicitly convert to integers) 
+//and strongly scoped (the enumerators are only placed into the scope region of 
+//the enumeration).
+
+
+//Although scoped enumerations use the class keyword, they aren’t considered to 
+//be a “class type” (which is reserved for structs, classes, and unions).
+enum class PhoneOS // "enum class" defines this as a scoped enumeration rather than an unscoped enumeration
+    {
+        android, // android is considered part of PhoneOS's scope region
+        ios,
+    };
+
+enum class PCOS
+{
+    windows, // windows is considered part of PCOS's scope region
+    mac,
+    linuxOS,
+};
+
+
+
+
+
 int main()
 {
     Fraction f{ 3, 4 }; // this actually instantiates a Fraction object named f
@@ -137,6 +162,25 @@ int main()
         my_feel = feeling::happy; // now I'm happy!!
 
     std::cout << "I am " << getFeel(my_feel) << ".\n";
+
+
+    PCOS    my_pc { PCOS::windows }; // note: windows is not directly accessible, we have to use COS::windows
+    PhoneOS my_phone { PhoneOS::android }; // note: android is not directly accessible, we have to use PhoneOS::android
+
+    //if (my_pc == my_phone) // compile error: the compiler doesn't know how to compare 
+    //different types PCOS and PhoneOS (unscoped enumeration would've allowed this).
+
+    //std::cout << PCOS::windows; // compile error: std::cout doesn't know how to print this (will not implicitly convert to int)
+
+    //###################################################################################################################
+    //Best practice: Favor scoped enumerations over unscoped enumerations unless there’s a compelling reason to do otherwise.
+    //###################################################################################################################
+
+    if (my_pc == PCOS::windows)
+        std::cout << "I am running Windows.\n";
+
+    if (my_phone == PhoneOS::android)
+        std::cout << "I am running Android.\n";
 
 
 
