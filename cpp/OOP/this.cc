@@ -94,6 +94,49 @@ public:
 };
 
 
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// As classes get longer and more complicated, having all the member function definitions inside the 
+//class can make the class harder to manage and work with. Using an already-written class only requires 
+//understanding its public interface (the public member functions), not how the class works underneath 
+//the hood. The member function implementation details just get in the way.
+
+//Fortunately, C++ provides a way to separate the “declaration” portion of the class from the 
+//“implementation” portion. This is done by defining the class member functions outside of the 
+//class definition. To do so, simply define the member functions of the class as if they were 
+//normal functions, but prefix the class name to the function using the scope resolution operator 
+//(::) (same as for a namespace).
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+class Date
+{
+private:
+    int m_year;
+    int m_month;
+    int m_day;
+
+public:
+    Date(int year, int month, int day);
+
+    void SetDate(int year, int month, int day);
+
+    int getYear() { return m_year; }
+    int getMonth() { return m_month; }
+    int getDay()  { return m_day; }
+};
+
+// Date constructor
+Date::Date(int year, int month, int day) : m_year{ year }, m_month{ month }, m_day{ day }
+{
+    SetDate(year, month, day); //not needed (cause of member init list), but just to show that it is possible
+}
+
+// Date member function
+void Date::SetDate(int year, int month, int day)
+{
+    m_month = month;
+    m_day = day;
+    m_year = year;
+}
 
 
 
@@ -146,6 +189,11 @@ int main()
     Calc calc{};
     calc.add(5).sub(3).mult(4).mult(10);
     std::cout << calc.getValue() << '\n';
+
+    Date my_date{2019, 1, 1};
+    std::cout << my_date.getYear() << '/' << my_date.getMonth() << '/' << my_date.getDay() <<'\n';
+    my_date.SetDate(2020, 2, 2);
+    std::cout << my_date.getYear() << '/' << my_date.getMonth() << '/' << my_date.getDay() << '\n';
     
 
     return 0;
