@@ -44,7 +44,8 @@
 //While object composition models has-a type relationships (a body has-a heart, a fraction has-a denominator), 
 //we can be more precise and say that composition models “part-of” relationships (a heart is part-of a body, a 
 //numerator is part of a fraction). Composition is often used to model physical relationships, where one object 
-//is physically contained inside another.
+//is physically contained inside another. In a composition relationship, the whole object is responsible for 
+//the existence of the part.
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 //**********************************************************************************************************
@@ -57,35 +58,6 @@
 //after themselves nicely).
 //**********************************************************************************************************
 
-int main()
-{
-    std::cout << "Enter a name for your creature: ";
-    std::string name;
-    std::cin >> name;
-    Creature creature{ name, { 4, 7 } };
-
-    while (true)
-    {
-        // print the creature's name and location
-        std::cout << creature << '\n';
-
-        std::cout << "Enter new X location for creature (-1 to quit): ";
-        int x{ 0 };
-        std::cin >> x;
-        if (x == -1)
-            break;
-
-        std::cout << "Enter new Y location for creature (-1 to quit): ";
-        int y{ 0 };
-        std::cin >> y;
-        if (y == -1)
-            break;
-
-        creature.moveTo(x, y);
-    }
-
-    return 0;
-}
 
 //**********************************************************************************************************************
 //Although most compositions directly create their parts when the composition is created and directly 
@@ -132,7 +104,116 @@ int main()
 //=====================================================================================================
 
 
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Aggregation  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//To qualify as an aggregation, a whole object and its parts must have the following relationship:
+//  The part (member) is part of the object (class)
+//  The part (member) can belong to more than one object (class) at a time
+//  The part (member) does not have its existence managed by the object (class)
+//  The part (member) does not know about the existence of the object (class)
+//When an aggregation is created, the aggregation is not responsible for creating the parts. When an aggregation 
+//is destroyed, the aggregation is not responsible for destroying the parts.
+//For example, consider the relationship between a person and their home address. The address isn’t managed by the
+// person -- the address probably existed before the person got there, and will exist after the person is gone. 
+//Additionally, a person knows what address they live at, but the addresses don’t know what people live there. 
+//Therefore, this is an aggregate relationship.
+//We can say that aggregation models “has-a” relationships (a department has teachers, the car has an engine).
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+//**********************************************************************************************************************
+//Because aggregations are similar to compositions in that they are both part-whole relationships, they are implemented 
+//almost identically, and the difference between them is mostly semantic. In a composition, we typically add our parts  
+//to the composition using normal member variables (or pointers where the allocation and deallocation process is handled  
+//by the composition class).
+
+//In an aggregation, we also add parts as member variables. However, these member variables are typically either 
+//references or pointers that are used to point at objects that have been created outside the scope of the class. 
+//Consequently, an aggregation usually either takes the objects it is going to point to as constructor parameters, 
+//or it begins empty and the subobjects are added later via access functions or operators.
+//Because these parts exist outside of the scope of the class, when the class is destroyed, the pointer or reference 
+//member variable will be destroyed (but not deleted). Consequently, the parts themselves will still exist.
+//**********************************************************************************************************************
+
+//Let’s take a look at a Teacher and Department example in more detail.
+class Teacher
+{
+private:
+    std::string m_name{};
+
+public:
+    Teacher(const std::string& name)
+        : m_name{ name }
+    {
+    }
+
+    const std::string& getName() const { return m_name; }
+};
+
+class Department
+{
+private:
+    const Teacher& m_teacher; // This dept holds only one teacher for simplicity, but it could hold many teachers
+
+public:
+    Department(const Teacher& teacher)
+        : m_teacher{ teacher }
+    {
+    }
+};
+
+
+
+int main()
+{
+    std::cout << "Enter a name for your creature: ";
+    std::string name;
+    std::cin >> name;
+    Creature creature{ name, { 4, 7 } };
+
+    while (true)
+    {
+        // print the creature's name and location
+        std::cout << creature << '\n';
+
+        std::cout << "Enter new X location for creature (-1 to quit): ";
+        int x{ 0 };
+        std::cin >> x;
+        if (x == -1)
+            break;
+
+        std::cout << "Enter new Y location for creature (-1 to quit): ";
+        int y{ 0 };
+        std::cin >> y;
+        if (y == -1)
+            break;
+
+        creature.moveTo(x, y);
+    }
+
+    //*****************************************************************************************
+
+    // Create a teacher outside the scope of the Department
+    Teacher bob{ "Bob" }; // create a teacher
+
+    {
+        // Create a department and use the constructor parameter to pass
+        // the teacher to it.
+        Department department{ bob };
+
+    } // department goes out of scope here and is destroyed
+
+    // bob still exists here, but the department doesn't
+
+    std::cout << bob.getName() << " still exists!\n";
+
+    //In this case, bob is created independently of department, and then passed 
+    //into department‘s constructor. When department is destroyed, the m_teacher 
+    //reference is destroyed, but the teacher itself is not destroyed, so it still 
+    //exists until it is independently destroyed later in main().
+
+    return 0;
+}
 
 
 
