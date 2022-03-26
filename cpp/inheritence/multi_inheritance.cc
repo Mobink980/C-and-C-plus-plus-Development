@@ -3,7 +3,6 @@
 #include <vector>
 #include <functional> // reference_wrapper
 
-
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Multiple inheritance  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -170,6 +169,37 @@ class Copier: public Scanner, public Printer
 // Avoid multiple inheritance unless alternatives lead to more complexity.
 //=====================================================================================================
 
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+class Base
+{
+protected:
+    int m_value {};
+
+public:
+    Base(int value)
+        : m_value{ value }
+    {
+    }
+
+    std::string getName() const { return "Base"; }
+    int getValue() const { return m_value; }
+};
+
+class Derived: public Base
+{
+public:
+    Derived(int value)
+        : Base{ value }
+    {
+    }
+
+    std::string getName() const { return "Derived"; }
+    int getValueDoubled() const { return m_value * 2; }
+};
 int main()
 {
     std::cout << "\n============================================================================" << '\n';
@@ -193,6 +223,32 @@ int main()
     std::cout << "\n============================================================================" << '\n';
 
     //********************************************************************************
+
+    //Pointers, references, and derived classes:
+    //It should be fairly intuitive that we can set Derived pointers and references to Derived objects:
+    Derived derived{ 5 };
+    std::cout << "derived is a " << derived.getName() << " and has value " << derived.getValue() << '\n';
+
+    Derived& rDerived{ derived };
+    std::cout << "rDerived is a " << rDerived.getName() << " and has value " << rDerived.getValue() << '\n';
+
+    Derived* pDerived{ &derived };
+    std::cout << "pDerived is a " << pDerived->getName() << " and has value " << pDerived->getValue() << '\n';
+
+    //However, since Derived has a Base part, a more interesting question is whether C++ will 
+    //let us set a Base pointer or reference to a Derived object. It turns out, we can!
+
+    // These are both legal!
+    Base& rBase{ derived }; //It is not possible to call Derived::getValueDoubled() 
+    Base* pBase{ &derived }; //using rBase or pBase. They are unable to see anything in Derived.
+
+    std::cout << "rBase is a " << rBase.getName() << " and has value " << rBase.getValue() << '\n';
+    std::cout << "pBase is a " << pBase->getName() << " and has value " << pBase->getValue() << '\n';
+
+    //It turns out that because rBase and pBase are a Base reference and pointer, 
+    //they can only see members of Base (or any classes that Base inherited).
+    //Consequently, they call Base::getName(), which is why rBase and pBase 
+    //report that they are a Base rather than a Derived.
 
     return 0;
 }
