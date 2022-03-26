@@ -1,9 +1,5 @@
 #include <string>
 #include <iostream>
-#include <vector>
-#include <functional> // reference_wrapper
-
-
 
 //******************************************************************************
 //One of the biggest benefits of using derived classes is the ability to reuse 
@@ -159,10 +155,47 @@ public:
 	{
 		// But we can assign it a value
 		m_value = value;
+        std::cout << "m_value has been redefined as private in the inherited class.";
+        //Note that this allowed us to take a poorly designed base class 
+        //and encapsulate its data in our derived class.
 	}
 };
 
+//Alternatively, instead of inheriting Base’s members publicly and 
+//making m_value private by overriding its access specifier, we 
+//could have inherited Base privately, which would have caused all 
+//of Base’s member to be inherited privately in the first place.
 
+
+//You can also mark member functions as deleted in the derived 
+//class, which ensures they can’t be called at all through a 
+//derived object:
+class MyBase
+{
+private:
+	int m_value {};
+
+public:
+	MyBase(int value)
+		: m_value { value }
+	{
+	}
+
+	int getValue() const { return m_value; }
+};
+
+class DerivedDeleted : public MyBase
+{
+public:
+	DerivedDeleted(int value)
+		: MyBase { value }
+	{
+        std::cout << "function getValue() cannot be accessed using DerivedDeleted class.\n";
+	}
+
+
+	int getValue() = delete; // mark this function as inaccessible
+};
 
 
 int main()
@@ -221,6 +254,28 @@ int main()
 
 	// The following won't work because m_value has been redefined as private
 	// std::cout << derived_mine.m_value;
+
+    std::cout << "\n==========================================================" << '\n';
+
+    DerivedDeleted derived_five { 7 };
+
+	// The following won't work because getValue() has been deleted!
+	// std::cout << derived_five.getValue();
+
+    std::cout << "==========================================================" << '\n';
+
+    //Note that the Base version of getValue() is still accessible though. 
+    //This means that a Derived object can still access getValue() by upcasting 
+    //the Derived object to a Base first:
+
+    // We can still access the function deleted in the Derived class through the Base class
+	std::cout << static_cast<MyBase&>(derived_five).getValue();
+
+    //We can cast a Derived object to a Base object (like casting a double into int). 
+
+    std::cout << "\n==========================================================" << '\n';
+
+
 
     return 0;
 }
